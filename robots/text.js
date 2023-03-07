@@ -8,11 +8,11 @@ dotenv.config();
 
 export async function textRobot(content) {
   await fetchChatGpt(content);
-  sanitizeContent(content);
-  breakIntoSentences(content);
-  limitMaxSentences(content);
+  await sanitizeContent(content);
+  await breakIntoSentences(content);
+  await limitMaxSentences(content);
 
-  function limitMaxSentences(content) {
+  async function limitMaxSentences(content) {
     console.log('Maximo de Sentenças: ', content.maxSentences);
     // content.sentences = sontent.sentences.slice(0, content.maxSentences);
   }
@@ -31,9 +31,9 @@ export async function textRobot(content) {
     let prompt = '';
 
     if (content.goal === 'Manwhua') {
-      prompt = `Escreva um resumo de uma possível história de um "Manhua" (Mangá Coreano) sobre o tema ${content.theme}, no genero de ${content.genre}`;
+      prompt = `Escreva um resumo de uma possível história de um "Manhua" (Mangá Coreano) sobre o tema "${content.theme}", no genero de ${content.genre}`;
     } else {
-      prompt = `Escreva uma aventura de "RPG" (Role Playeng Game) com o tema ${content.theme}, no genero de ${content.genre}`
+      prompt = `Escreva uma aventura de "RPG" (Role Playeng Game) com o tema "${content.theme}", no genero de ${content.genre}`
     }
 
     const res = await oraPromise(api.sendMessage(prompt), {
@@ -44,10 +44,9 @@ export async function textRobot(content) {
     content.sinopsis.sourceContent = res.text;
   }
 
-  function sanitizeContent(content) {
+  async function sanitizeContent(content) {
     const withoutBlankLines = removeBlankLines(content.sinopsis.sourceContent);
     content.sinopsis.sanitizedContent = withoutBlankLines.join(' ');
-    console.log('Conteudo Sanitizado: vvvvvvvvvvvvvvvv', content.sinopsis.sanitizedContent);
 
     function removeBlankLines(str) {
       const allLines = str.split('\n');
@@ -56,20 +55,17 @@ export async function textRobot(content) {
     }
   }
 
-  function breakIntoSentences(content) {
-    console.log('Quebrando em sentenças');
+  async function breakIntoSentences(content) {
     const sentences = sentencBoundaryDetection.sentences(content.sinopsis.sanitizedContent);
-    console.log('Quebrando Sentenças: vvvvvvvvvvvvvvvv', sentences);
 
-    content.sinopsis.sentences = [];
-
-    content.sentences = [
-      {
-        text: 'examplo 1',
-        keywords: ['exemplo'],
-        images: ['']
-      }
-    ];
+    sentences.forEach(sentence => {
+      const sentenceObject = {
+        text: sentence,
+        keywords: [],
+        images: []
+      };
+      content.sinopsis.sentences.push(sentenceObject);
+    });
   }
 
 }

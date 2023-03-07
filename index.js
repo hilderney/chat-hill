@@ -32,7 +32,7 @@ async function start() {
   await robots.input(content);
   await robots.text(content);
 
-  // console.log(content);
+  console.log('CONTENT : ', content);
   console.log('Finalizando...');
 }
 
