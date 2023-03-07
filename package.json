@@ -23,6 +23,7 @@
     "openai": "^3.1.0",
     "openai-authenticator": "^0.0.3",
     "ora": "^6.1.2",
-    "readline-sync": "^1.4.10"
+    "readline-sync": "^1.4.10",
+    "sbd": "^1.0.19"
   }
 }
