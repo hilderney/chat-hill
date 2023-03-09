@@ -1,5 +1,6 @@
 import { keyInSelect, question  } from 'readline-sync';
 import Genres from '../shared/consts/genres.consts.json' assert { type: "json" };
+import Goals from '../shared/consts/goals.consts.json' assert { type: "json" };
 
 export async function inputRobot(content) {
   console.log('> [input-robot] Starting...');
@@ -22,7 +23,7 @@ export async function inputRobot(content) {
   }
 
   async function askAndReturnGoal() {
-    const goals = ['Manwhua', 'Aventura de RPG'];
+    const goals = [Goals.manhwa, Goals.rpg];
     const selectedGoalIndex = keyInSelect(goals, 'Escolha uma opção: ');
     const selectedGoalText = goals[selectedGoalIndex];
     return selectedGoalText;

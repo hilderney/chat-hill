@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/hilderney/chat-hill#readme",
   "dependencies": {
+    "@google-cloud/language": "^5.2.1",
     "chatgpt": "^4.8.1",
     "dotenv": "^16.0.3",
     "openai": "^3.1.0",
